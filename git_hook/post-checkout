@@ -1,0 +1,12 @@
+#!/bin/bash
+
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+BRANCHES_PATH="${PROJECT_DIR}/.git/all_branches"
+cur_br=$(git symbolic-ref --short -q HEAD)
+
+if [ ! -f "${BRANCHES_PATH}" ]; then
+    echo "${cur_br}" > "${BRANCHES_PATH}"
+else
+    sed -i "/^${cur_br}$/d" "${BRANCHES_PATH}"
+    sed -i "1 i\\${cur_br}" "${BRANCHES_PATH}"
+fi
